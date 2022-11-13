@@ -63,9 +63,6 @@ const invert = array => array.map(num => -num);
 */
 
 
-
-
-
 /*4
 Наша футбольная команда завершила чемпионат.
  
@@ -657,3 +654,207 @@ class Kata {
 
 Kata.getVolumeOfCuboid(1, 2, 2);  //  4
 Kata.getVolumeOfCuboid(6, 2, 5);  // 60
+
+
+
+/*22 В этом ката вы создадите функцию, которая берет список целых чисел и строк
+и возвращает новый список с неотрицательными числами и отфильтрованными строками.*/
+
+function filter_list(arr) {
+  let positiveNumList = [];
+  for (i = 0; i < arr.length; i++) {
+    if (Number.isInteger(arr[i]) && arr[i] >= 0) positiveNumList.push(arr[i]);
+  }
+  return positiveNumList
+}
+
+//filter_list([1, 2, 'a', 'b']); // [1,2]
+//filter_list([1, 'a', 'b', 0, 15]); // [1,0,15]
+//filter_list([1, 2, 'aasf', '1', '123', 123]); // [1,2,123]
+filter_list([-1, -2, 'aasf', '1', '123', 123]); // [123]
+
+
+
+/*23 Проверьте, содержит ли строка одинаковое количество «x» и «o».
+Метод должен возвращать логическое значение и не учитывать регистр.
+Строка может содержать любой символ.
+
+Примеры ввода/вывода:
+
+XO("ooxx") => true
+XO("xooxx") => false
+XO("ooxXm") => true
+XO("zpzpzpp") => true // when no 'x' and 'o' is present should return true
+XO("zzoo") => false*/
+
+function XO(str) {
+  let x = null;
+  let o = null;
+  for (let i = 0; i < str.length; i++) {
+    if (str[i].toUpperCase() == ('x').toUpperCase()) x += 1;
+    if (str[i].toUpperCase() == ('o').toUpperCase()) o += 1;
+  }
+  return x == o
+}
+
+/*
+function XO(str) {
+  let x = str.match(/x/gi);
+  let o = str.match(/o/gi);
+  return (x && x.length) === (o && o.length);
+}
+*/
+
+//XO('xo');  //true
+XO("xxOo");  //true
+//XO("xxxm");  //false
+//XO("Oo");  //false
+//XO("ooom");  //false
+
+
+
+/*24 Напишите функцию с именем setAlarm, которая получает два параметра.
+Первый параметр, used , истинен, когда вы работаете, а второй параметр,
+Vacation истинен, когда вы находитесь в отпуске.
+
+Функция должна возвращать true, если вы работаете, а не в отпуске (поскольку
+это обстоятельства, при которых вам нужно установить будильник).
+В противном случае он должен возвращать false. Примеры:
+
+setAlarm(true, true) -> false
+setAlarm(false, true) -> false
+setAlarm(false, false) -> false
+setAlarm(true, false) -> true*/
+
+const setAlarm = (employed, vacation) => employed == true && vacation == false;
+
+/* const setAlarm = (employed, vacation) => employed == true && vacation == false ? true : false; */
+
+/* function setAlarm(employed, vacation) {
+  if (employed == true && vacation == false) return true;
+  else return false
+} */
+
+/*
+const setAlarm = (employed, vacation) => employed && !vacation;
+*/
+
+setAlarm(true, true);  // false
+setAlarm(false, true);  // false
+setAlarm(true, false);  // true
+
+
+
+/*25 Ваша задача — найти первый элемент массива, который не является последовательным.
+Под непоследовательным мы подразумеваем больше 1, чем предыдущий элемент массива.
+Если весь массив последовательный, верните null.*/
+
+function firstNonConsecutive(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if ((arr[i + 1] - arr[i]) != 1 && arr[i + 1] != undefined) {
+      return arr[i + 1]
+    }
+  }
+  return null
+}
+
+firstNonConsecutive([1, 2, 3, 4, 6, 7, 8]);
+firstNonConsecutive([0, 1, 2, 4, 5, 7, 8]);
+firstNonConsecutive([-1, 0, 1, 2, 3, 4, 8]);
+firstNonConsecutive([1, 2, 3, 4]);
+firstNonConsecutive([]);
+
+/* TEST
+const chai = require("chai");
+const assert = chai.assert;
+chai.config.truncateThreshold=0;
+
+describe("Fixed tests", () => {
+  it('a simple example', function() {
+    const first = firstNonConsecutive([1,2,3,4,6,7,8])
+    assert.strictEqual(first, 6)
+    const second = firstNonConsecutive([1,2,3,4])
+    assert.strictEqual(second, null)
+  })
+})
+*/
+
+
+
+/*
+Write a function that takes an array of numbers and returns the sum of the numbers.
+The numbers can be negative or non-integer. If the array does not contain any
+numbers then you should return 0.
+
+Examples
+Input: [1, 5.2, 4, 0, -1]
+Output: 9.2
+
+Input: []
+Output: 0
+
+Input: [-2.398]
+Output: -2.398
+ */
+
+/* function sum (numbers) {
+  "use strict";
+
+  if (numbers.length == 0) console.log(0);
+  else {
+    let sum = numbers.reduce((sum, current) => (sum = sum + current))
+    console.log(sum)
+  }
+}; */
+//my refactoring
+const sum = (numbers) => numbers.length != 0 ? numbers.reduce((sum, current) =>
+  (sum + current)) : 0;
+
+
+/*
+function sum(numbers) {
+  return numbers.reduce((a, b) => a + b, 0);
+}
+*/
+
+sum([]);  // 0
+sum([1, 5.2, 4, 0, -1]);  // 9.2
+
+
+
+/*
+You might know some pretty large perfect squares. But what about the NEXT one?
+
+Complete the findNextSquare method that finds the next integral perfect square
+after the one passed as a parameter. Recall that an integral perfect square is
+an integer n such that sqrt(n) is also an integer.
+
+If the parameter is itself not a perfect square then -1 should be returned.
+You may assume the parameter is non-negative.
+
+Examples:(Input --> Output)
+
+121 --> 144 (11-->12)
+625 --> 676
+114 --> -1 since 114 is not a perfect square
+*/
+/* function findNextSquare(sq) {
+  let sqRoot = Math.sqrt(sq);
+  if (Number.isInteger(sqRoot)) {
+    return Math.pow((sqRoot + 1), 2);
+  } else {
+    return -1;
+  }
+} */
+//my refactoring
+//const findNextSquare = (sq) => Number.isInteger(Math.sqrt(sq)) ? Math.pow((Math.sqrt(sq) + 1), 2): -1;
+
+const findNextSquare = (sq) => Number.isInteger(sq = Math.sqrt(sq)) ? Math.pow((sq + 1), 2): -1;
+/*
+const findNextSquare = sq => ( sq = Math.sqrt(sq) ) % 1 ? -1 : Math.pow(++sq, 2)
+*/
+findNextSquare(121);  // 144, "Wrong output for 121"
+findNextSquare(625);  // 676, "Wrong output for 625"
+findNextSquare(319225);  // 320356, "Wrong output for 319225"
+findNextSquare(15241383936);  // 15241630849, "Wrong output for 15241383936"
+findNextSquare(155);  // -1, "Wrong output for 155"
