@@ -781,7 +781,7 @@ describe("Fixed tests", () => {
 
 
 
-/*
+/* 26
 Write a function that takes an array of numbers and returns the sum of the numbers.
 The numbers can be negative or non-integer. If the array does not contain any
 numbers then you should return 0.
@@ -822,7 +822,7 @@ sum([1, 5.2, 4, 0, -1]);  // 9.2
 
 
 
-/*
+/* 27
 You might know some pretty large perfect squares. But what about the NEXT one?
 
 Complete the findNextSquare method that finds the next integral perfect square
@@ -849,7 +849,7 @@ Examples:(Input --> Output)
 //my refactoring
 //const findNextSquare = (sq) => Number.isInteger(Math.sqrt(sq)) ? Math.pow((Math.sqrt(sq) + 1), 2): -1;
 
-const findNextSquare = (sq) => Number.isInteger(sq = Math.sqrt(sq)) ? Math.pow((sq + 1), 2): -1;
+const findNextSquare = (sq) => Number.isInteger(sq = Math.sqrt(sq)) ? Math.pow((sq + 1), 2) : -1;
 /*
 const findNextSquare = sq => ( sq = Math.sqrt(sq) ) % 1 ? -1 : Math.pow(++sq, 2)
 */
@@ -858,3 +858,134 @@ findNextSquare(625);  // 676, "Wrong output for 625"
 findNextSquare(319225);  // 320356, "Wrong output for 319225"
 findNextSquare(15241383936);  // 15241630849, "Wrong output for 15241383936"
 findNextSquare(155);  // -1, "Wrong output for 155"
+
+
+/* 28
+You are going to be given a word. Your job is to return the middle character of
+the word. If the word's length is odd, return the middle character.
+If the word's length is even, return the middle 2 characters.
+*/
+
+function getMiddle(s) {
+  let l = s.length;
+  let mid = l / 2;
+  if (l % 2 === 0) {
+    return s[mid - 1] + s[mid];
+  } else if (l === 1) {
+    return s;
+  } else {
+    return s[Math.floor(mid)];
+  }
+}
+
+/*
+function getMiddle(s)
+{
+  return s.substr(Math.ceil(s.length / 2 - 1), s.length % 2 === 0 ? 2 : 1);
+}
+*/
+
+getMiddle("test");  // "es"
+getMiddle("testing");  // "t"
+getMiddle("middle");  // "dd"
+getMiddle("A");  // "A"
+
+
+
+/* 29
+Дан месяц как целое число от 1 до 12, вернитесь к тому, к какому кварталу года
+он принадлежит, как целое число.
+
+Например: 2-й месяц (февраль) является частью первого квартала; 6 месяц (июнь)
+входит во второй квартал; и месяц 11 (ноябрь) является частью четвертого квартала.
+*/
+
+const quarterOf = (month) => {
+  if (month <= 3) return 1;
+  if (month >= 4 && month <= 6) return 2;
+  if (month >= 7 && month <= 9) return 3;
+  if (month >= 10) return 4;
+}
+
+/* const quarterOf = m => Math.ceil(m/3); */
+
+quarterOf(3);  // 1
+quarterOf(8);  // 3
+quarterOf(11);  // 4
+
+
+
+/* 30
+История
+У Бена есть очень простая идея для получения прибыли: он что-то покупает и снова
+продает. Конечно, это не принесло бы ему никакой прибыли, если бы он просто
+покупал и продавал по одной и той же цене. Вместо этого он купит его по самой
+низкой цене и продаст по самой высокой.
+
+Задача
+Напишите функцию, которая возвращает минимальное и максимальное количество
+заданного списка/массива.
+
+Примеры (ввод --> вывод)
+[1,2,3,4,5] --> [1,5]
+[2334454,5] --> [5,2334454]
+[1]         --> [1,1]
+*/
+
+function minMax(arr) {
+  let newArr = [];
+  arr.sort(function (a, b) {
+    return a - b;
+  })
+  newArr.push(arr[0]);
+  newArr.push(arr[arr.length - 1]);
+  return newArr;
+}
+
+/*
+function minMax(arr){
+  return [Math.min(...arr), Math.max(...arr)];
+}
+*/
+
+minMax([1, 2, 7, 4, 5]); // [1, 5],
+minMax([2334454, 5]); // [5, 2334454],
+minMax([5]); // [5, 5]
+
+
+
+/* 21
+Банкоматы позволяют использовать 4- или 6-значные PIN-коды, а PIN-коды не могут
+содержать ничего, кроме ровно 4 или ровно 6 цифр.
+
+Если функции передана допустимая строка PIN-кода, верните true, иначе верните false.
+
+Примеры ( Ввод --> Вывод)
+"1234"   -->  true
+"12345"  -->  false
+"a234"   -->  false
+*/
+
+function validatePIN(pin) {
+  pin = pin.replace('.', 'z');
+  pin = pin.replace(' ', 'z');
+  pin = pin.replace('\n', 'z');
+  pin = pin.replace('+', 'z');
+  if (pin.length === 4 || pin.length === 6) {
+    pin = +pin;
+    if (Number.isInteger(pin) && pin >= 0) return true;
+  }
+  return false;
+}
+
+/*
+function validatePIN(pin) {
+  return /^(\d{4}|\d{6})$/.test(pin)
+} */
+
+//validatePIN("-12345");  //false
+//validatePIN("0000");  //true
+//validatePIN("116.");  //false
+//validatePIN("085457");  //true
+//validatePIN("1.234");  //false
+//validatePIN('+111');  //false
